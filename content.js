@@ -1,38 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load storage data in popup
 
-    chrome.storage.local.get('folders', function(data){
-        if (data.folders === undefined) {
-            chrome.storage.local.set({'folders':[]});
-        }else {
-            for (let i=0; i<data.folders[0].length;i++) {
+    chrome.storage.local.get('folderList', function(data){
+        if (data.folderList === undefined || data.folderList.length == 0) {
+            chrome.storage.local.set({'folderList':[]});
+        } else {
+            for (let i=0; i<data.folderList.length; i++) {
                 let folderElement = document.createElement("li")
-                folderElement.innerHTML = data.folders[0][i]
+                folderElement.innerHTML = data.folderList[i]
                 document.getElementById('folders-list').appendChild(folderElement)
             }
         }
     })
 
     addNewFolder = function() {
-        chrome.storage.local.get('folders', function(data){
+        chrome.storage.local.get('folderList', function(data){
                 let newFolderElement = document.createElement("li")
-                lastItemIndex = data.folders[0].length - 1
-                console.log(data.folders[0])
-                console.log(lastItemIndex)
-                newFolderElement.innerHTML = data.folders[0][lastItemIndex]
+                lastItemIndex = data.folderList.length - 1
+                newFolderElement.innerHTML = data.folderList[lastItemIndex]
                 document.getElementById('folders-list').appendChild(newFolderElement)
         })
     }
-    // Get input value and store it
+
+    //Get input value and store it
     let button = document.getElementById('addFolderButton')
     button.addEventListener("click", () => {
-        chrome.storage.local.get('folders', function(data){
-            let oldFolders = data.folders[0]
+        chrome.storage.local.get('folderList', function(data){
+            let oldFolderList = data.folderList
             let newFolder = document.getElementById("folder-input").value
-            oldFolders.push(newFolder)
-            chrome.storage.local.set({'folders':[oldFolders]});
+            oldFolderList.push(newFolder)
+            chrome.storage.local.set({'folderList': oldFolderList});
             addNewFolder()
-            document.getElementById("folder-input").value = ""
+            document.getElementById("folder-input").value = ""     
         })
     })
     
