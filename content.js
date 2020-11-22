@@ -8,7 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
             folderElement.innerHTML = key
             document.getElementById('folders-list').appendChild(folderElement)
             // SUBFOLDER LINKS
-            
+            let folderLinks = Object.values(data[i])
+            for (let j=0; j<folderLinks.length; j++) {
+                let linkElement = document.createElement("a")
+                linkElement.innerHTML = folderLinks[j]
+                folderElement.appendChild(linkElement)
+            }
             // ADD BUTTON
             let addLinkButton = document.createElement("button")
             addLinkButton.innerHTML = "+"
@@ -29,12 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    let folders = [
-        {'jobs': ['job1', 'job2']},
-        {'work': ['work1', 'work2']},
-        {'articles': ['article1', 'article2']}
+    // let folders = [
+    //     {'jobs': ['job1', 'job2']},
+    //     {'work': ['work1', 'work2']},
+    //     {'articles': ['article1', 'article2']}
 
-    ]
+    // ]
+
+    // loadFoldersAndButtons(folders)
 
     // Load storage data in popup on popup load
     chrome.storage.local.get('folderList', function (data) {
