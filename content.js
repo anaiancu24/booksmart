@@ -9,16 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('folders-list').appendChild(folderElement)
             // SUBFOLDER LINKS
             let folderLinks = Object.values(data[i])
-            for (let j=0; j<folderLinks.length; j++) {
-                let linkElement = document.createElement("a")
-                linkElement.innerHTML = folderLinks[j]
-                folderElement.appendChild(linkElement)
+            console.log(folderLinks[0])
+            let folderLinksElement = document.createElement("ul")
+            folderElement.appendChild(folderLinksElement)
+            for (let j = 0; j < folderLinks[0].length; j++) {
+                    let linkElement = document.createElement("li")
+                    linkElement.innerHTML = folderLinks[0][j]['title']
+                    folderLinksElement.appendChild(linkElement)
             }
             // ADD BUTTON
             let addLinkButton = document.createElement("button")
             addLinkButton.innerHTML = "+"
             folderElement.appendChild(addLinkButton)
-            addLinkButton
+            addLinkButton.addEventListener("click", () => {
+                chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                    let linkObj = {}
+                    linkObj['title'] = tabs[0].title
+                    linkObj['url'] = tabs[0].url
+                    data[i][key].push(linkObj)
+                    chrome.storage.local.set({ 'folderList': data });
+                    document.getElementById('folders-list').innerHTML = ""
+                    loadFoldersAndButtons(data)
+                });
+            })
             // REMOVE BUTTON
             let removeFolderButton = document.createElement("button")
             removeFolderButton.innerHTML = "-"
@@ -29,8 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('folders-list').innerHTML = ""
                 loadFoldersAndButtons(data)
             })
-
-
         }
     }
 
@@ -127,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
             let newFolder = {}
             let inputValue = document.getElementById("folder-input").value
             newFolder[inputValue] = []
-            console.log(newFolder)
             oldFolderList.push(newFolder)
             // add the new folders list to the storage
             chrome.storage.local.set({ 'folderList': oldFolderList });
