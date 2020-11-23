@@ -13,9 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
             let folderLinksElement = document.createElement("ul")
             folderElement.appendChild(folderLinksElement)
             for (let j = 0; j < folderLinks[0].length; j++) {
-                    let linkElement = document.createElement("li")
-                    linkElement.innerHTML = folderLinks[0][j]['title']
-                    folderLinksElement.appendChild(linkElement)
+                let linkElementHref = document.createElement("a")
+                let linkElement = document.createElement('li')
+                linkElement.innerHTML = folderLinks[0][j]['title']
+                linkElementHref.href = folderLinks[0][j]['url']
+                linkElement.target = "_blank"
+                folderLinksElement.appendChild(linkElementHref)
+                linkElementHref.appendChild(linkElement)
             }
             // ADD BUTTON
             let addLinkButton = document.createElement("button")
