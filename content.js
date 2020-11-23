@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('folders-list').appendChild(folderElement)
             // SUBFOLDER LINKS
             let folderLinks = Object.values(data[i])
-            console.log(folderLinks[0])
             let folderLinksElement = document.createElement("ul")
             folderElement.appendChild(folderLinksElement)
             for (let j = 0; j < folderLinks[0].length; j++) {
@@ -17,9 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 let linkElement = document.createElement('li')
                 linkElement.innerHTML = folderLinks[0][j]['title']
                 linkElementHref.href = folderLinks[0][j]['url']
-                linkElement.target = "_blank"
+                linkElementHref.target = "_blank"
                 folderLinksElement.appendChild(linkElementHref)
                 linkElementHref.appendChild(linkElement)
+                let removeLinkButton = document.createElement("button")
+                removeLinkButton.innerHTML = "-"
+                folderLinksElement.appendChild(removeLinkButton)
+                removeLinkButton.addEventListener("click", () => {
+                    Object.values(data[i])[0].splice(j, 1)
+                    chrome.storage.local.set({ 'folderList': data });
+                    document.getElementById('folders-list').innerHTML = ""
+                    loadFoldersAndButtons(data)
+                })
             }
             // ADD BUTTON
             let addLinkButton = document.createElement("button")
@@ -49,15 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // let folders = [
-    //     {'jobs': ['job1', 'job2']},
-    //     {'work': ['work1', 'work2']},
-    //     {'articles': ['article1', 'article2']}
-
-    // ]
-
-    // loadFoldersAndButtons(folders)
-
     // Load storage data in popup on popup load
     chrome.storage.local.get('folderList', function (data) {
         // check if there are any folders already
@@ -65,68 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
             chrome.storage.local.set({ 'folderList': [] });
         } else {
             loadFoldersAndButtons(data.folderList)
-            // loop through folders and display as list items
-            // for (let i = 0; i < data.folderList.length; i++) {
-            //     let folderElement = document.createElement("li")
-            //     let key = Object.keys(data.folderList[i])
-            //     folderElement.innerHTML = key
-            //     document.getElementById('folders-list').appendChild(folderElement)
-            //     // remove a folder
-            //     let removeFolderButton = document.createElement("button")
-            //     removeFolderButton.innerHTML = "-"
-            //     folderElement.appendChild(removeFolderButton)
-            //     removeFolderButton.addEventListener("click", () => {
-            //         data.folderList.splice(i, 1)
-            //         console.log(data.folderList)
-            //         chrome.storage.local.set({ 'folderList': data.folderList });
-            //         document.getElementById('folders-list').innerHTML = ""
-            //         for (let i = 0; i < data.folderList.length; i++) {
-            //             let folderElement = document.createElement("li")
-            //             let key = Object.keys(data.folderList[i])
-            //             folderElement.innerHTML = key
-            //             document.getElementById('folders-list').appendChild(folderElement)
-            //             // remove a folder
-            //             let removeFolderButton = document.createElement("button")
-            //             removeFolderButton.innerHTML = "-"
-            //             folderElement.appendChild(removeFolderButton)
-            //             removeFolderButton.addEventListener("click", () => {
-            //                 data.folderList.splice(i, 1)
-            //                 console.log(data.folderList)
-            //                 chrome.storage.local.set({ 'folderList': data.folderList });
-            //                 document.getElementById('folders-list').innerHTML = ""
-            //                 for (let i = 0; i < data.folderList.length; i++) {
-            //                     let folderElement = document.createElement("li")
-            //                     let key = Object.keys(data.folderList[i])
-            //                     folderElement.innerHTML = key
-            //                     document.getElementById('folders-list').appendChild(folderElement)
-            //                 }
-            //             })
-            //         }
-            //     })
-
-
-            //     // create an addLink button for each new folder item
-            //     let addLinkButton = document.createElement("button")
-            //     addLinkButton.innerHTML = "+"
-            //     addLinkButton.id = Object.keys(data.folderList[i])
-            //     folderElement.appendChild(addLinkButton)
-            //     // create a ul element and append it for each folder item
-            //     let linksListElement = document.createElement("ul")
-            //     folderElement.appendChild(linksListElement)
-            //     // on add Link button click, add a link to the folder item list
-            //     addLinkButton.addEventListener("click", () => {
-            //         let linkElement = document.createElement("a")
-            //         // get current tab url
-            //         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            //             console.log(Object.values(data.folderList[i]))
-            //             console.log(key)
-            //             linkElement.innerHTML = tabs[0].title
-            //             linkElement.href = tabs[0].url
-            //             linkElement.target = "_blank"
-            //         });
-            //         linksListElement.appendChild(linkElement)
-            //     })
-            // }
         }
     })
 
