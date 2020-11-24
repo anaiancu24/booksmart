@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="background.css">
-    <script src="content.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Ubuntu:wght@500&display=swap" rel="stylesheet">    <script src="content.js"></script>
 </head>
-<body>
-        <h1>Booksmart</h1>
-        <input type="text" id="folder-input"/><button type="submit" id="addFolderButton">+</button>
-        <ul id="folders-list">
-        </ul>
+<body id="booksmart">
+        <div class="booksmart__logo">
+            <img src="bookmark_without_border.png"/>
+            <h1>Booksmart</h1>
+        </div>
+        <div class="booksmart__add-folder">
+            <h2>Add a folder</h2>
+            <input type="text" id="booksmart__add-folder-input" placeholder="Type here..."/><button class="booksmart__add-folder-button" type="submit" id="addFolderButton">+</button>
+        </div>
+        <div id="booksmart__folders-list" class="booksmart__folders-list">
+
+        </div>
 </body>
 </html>
