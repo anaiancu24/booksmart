@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Function to loop through data and display everything as list items
+    let colorsArray = ["#fda6a5", "#b95072", "#893c55", "#d66175", "#d62155", "#e66165", "#b95a7a", "#eda4b5", "#a83a55", "#9c335a", "#a6b1c1"]
     loadFoldersAndButtons = function (data) {
         for (let i = 0; i < data.length; i++) {
             // FOLDERS
@@ -9,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
             folderElement.appendChild(folderElementTitle)
             let key = Object.keys(data[i])
             folderElementTitle.innerHTML = key
+            let dropdownButton = document.createElement("button")
+            dropdownButton.innerHTML = "&#x25BC;"
+            dropdownButton.classList.add("booksmart__dropdown-button")
+            folderElementTitle.appendChild(dropdownButton)
             document.getElementById('booksmart__folders-list').appendChild(folderElement)
             // REMOVE BUTTON
             let removeFolderButton = document.createElement("button")
@@ -44,17 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
             folderElement.appendChild(folderLinksElement)
             for (let j = 0; j < folderLinks[0].length; j++) {
                 let linkElementHref = document.createElement("a")
-                linkElementHref.classList.add("booksmart__link-item")
                 let linkElement = document.createElement('li')
-                linkElement.innerHTML = folderLinks[0][j]['title']
+                linkElement.classList.add("booksmart__link-item")
+                linkElementHref.innerHTML = folderLinks[0][j]['title']
                 linkElementHref.href = folderLinks[0][j]['url']
                 linkElementHref.target = "_blank"
-                folderLinksElement.appendChild(linkElementHref)
-                linkElementHref.appendChild(linkElement)
+                folderLinksElement.appendChild(linkElement)
+                linkElement.appendChild(linkElementHref)
                 let removeLinkButton = document.createElement("button")
                 removeLinkButton.classList.add("booksmart__remove-button")
                 removeLinkButton.innerHTML = "-"
-                folderLinksElement.appendChild(removeLinkButton)
+                linkElement.appendChild(removeLinkButton)
                 removeLinkButton.addEventListener("click", () => {
                     Object.values(data[i])[0].splice(j, 1)
                     chrome.storage.local.set({ 'folderList': data });
@@ -62,6 +67,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     loadFoldersAndButtons(data)
                 })
             }
+        }
+        // Remove Sublinks container if no sublinks
+        let linksContainers = document.querySelectorAll(".booksmart__links-list")
+        for (let z = 0; z < linksContainers.length; z++) {
+            if (!linksContainers[z].hasChildNodes()) {
+                linksContainers[z].style.display = "none"
+            }
+        }
+        // Change folder colors and toggle sublinks on folder click
+        let folderElements = document.querySelectorAll("h3")
+        for (let y = 0; y < folderElements.length; y++) {
+            let randomColor = colorsArray[Math.floor(
+                Math.random() * colorsArray.length)];
+            folderElements[y].style.backgroundColor = randomColor
+            folderElements[y].addEventListener("click", () => {
+                let sublinksFolder = document.getElementsByClassName('booksmart__links-list')[y]
+                sublinksFolder.classList.toggle('hidden')
+            })
         }
     }
 
@@ -98,4 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("booksmart__add-folder-input").value = ""
         })
     })
+
+    setTimeout(() => {
+
+    }, 100)
+
 })

@@ -85,6 +85,8 @@
     padding-top:8px;
     display: inline-block;
     margin-right: 10px;
+    position: relative;
+    cursor: pointer;
 }
 
 .booksmart__folder-element button {
@@ -115,4 +117,54 @@
     cursor: pointer;
     border-radius: 50%;
     font-size: 16px;
+}
+
+.booksmart__links-list {
+    display: block;
+    padding:12px 20px;
+    border-radius: 14px;
+    background:white;
+    margin-top: 0;
+}
+
+.hidden {
+    display:none;
+}
+
+.booksmart__link-item {
+    border-bottom:1px solid #c1cadb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.booksmart__link-item:last-child {
+    margin-bottom: 0;
+}
+
+.booksmart__link-item a{
+    color:#928d8d;
+    text-decoration:none;
+}
+
+.booksmart__link-item a:hover {
+    color:#d55962;
+}
+
+.booksmart__link-item li{
+    list-style-type: none;
+}
+
+.booksmart__dropdown-button {
+    width:10px;
+    height:10px;
+    color:white;
+    border:none;
+    outline:none;
+    position: absolute;
+    left:5px;
+    top:10px;
+    background: none;
 }
