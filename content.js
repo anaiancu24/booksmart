@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Function to loop through data and display everything as list items
-    let colorsArray = ["#fda6a5", "#b95072", "#893c55", "#d66175", "#d62155", "#e66165", "#b95a7a", "#eda4b5", "#a83a55", "#9c335a", "#a6b1c1"]
+    let colorsArray = ["#fda6a5", "#b95072", "#893c55", "#d66175", "#d62155", "#e66165", "#b95a7a", "#eda4b5", "#a83a55", "#9c335a"]
     loadFoldersAndButtons = function (data) {
         for (let i = 0; i < data.length; i++) {
             // FOLDERS
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let key = Object.keys(data[i])
             folderElementTitle.innerHTML = key
             let dropdownButton = document.createElement("button")
-            dropdownButton.innerHTML = "&#x25BC;"
+            // dropdownButton.innerHTML = "&#x25BC;"
             dropdownButton.classList.add("booksmart__dropdown-button")
             folderElementTitle.appendChild(dropdownButton)
             document.getElementById('booksmart__folders-list').appendChild(folderElement)
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addLinkButton.classList.add("booksmart__add-button")
             addLinkButton.innerHTML = "+"
             folderElement.appendChild(addLinkButton)
-            addLinkButton.addEventListener("click", () => {
+            addLinkButton.addEventListener("click", (e) => {
                 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                     let linkObj = {}
                     linkObj['title'] = tabs[0].title
@@ -41,11 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('booksmart__folders-list').innerHTML = ""
                     loadFoldersAndButtons(data)
                 });
+                // addLinkButton.nextSibling.classList.add("hidden")
+                // e.target.nextSibling.classList.remove("hidden")
             })
             // SUBFOLDER LINKS
             let folderLinks = Object.values(data[i])
             let folderLinksElement = document.createElement("ul")
             folderLinksElement.classList.add("booksmart__links-list")
+            folderLinksElement.classList.add("hidden")
             folderElement.appendChild(folderLinksElement)
             for (let j = 0; j < folderLinks[0].length; j++) {
                 let linkElementHref = document.createElement("a")
@@ -121,9 +124,4 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("booksmart__add-folder-input").value = ""
         })
     })
-
-    setTimeout(() => {
-
-    }, 100)
-
 })

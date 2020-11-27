@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Booksmart",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "Bookmarking smarter than ever. Add folders and bookmark your current tab to any folder.",
     "short_name": "B",
     "permissions": ["activeTab", "declarativeContent", "storage", "<all_urls>"],
@@ -12,9 +12,6 @@
         "js": ["content.js"]
       }
     ],
-    "background": {
-        "scripts": ["background.js"]
-    },
     "browser_action": {
       "default_title": "Booksmart",
       "default_popup": "popup.html",
